@@ -12,6 +12,7 @@ import Job from "./Pages/Job.jsx";
 import Login from "./Pages/Login.jsx";
 import Signup from "./Pages/Signup.jsx";
 import Profile from "./Pages/Profile.jsx";
+import Organisation from "./Pages/Organisation.jsx";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "organisation",
+        element: <Organisation />,
       },
     ],
   },

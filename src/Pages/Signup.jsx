@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { FirebaseContext } from "../context/FirebaseContext";
 
 const Signup = () => {
+  const { user } = useContext(FirebaseContext);
+  const navigate = useNavigate();
+
   const [login, setLogin] = useState({
     name: "",
     email: "",
@@ -32,28 +36,54 @@ const Signup = () => {
         await createUserWithEmailAndPassword(auth, login.email, login.password);
         const userdata = auth.currentUser;
         console.log(userdata);
-        if (userdata) {
-          await setDoc(doc(db, "users", userdata.uid), {
-            name: login.name,
-            email: login.email,
-            userId: userdata.uid,
-            JobsCreated: [],
-            JobsSaved: [],
-            JobsApplied: [],
-            role: login.role,
-            address: "Jwala nagar",
-            phone: "9876543210",
-            resume: null,
-            education: [],
-            experience: [],
-            skills: [],
-            projects: [],
-            achievements: [],
-            lastLogin: new Date(),
-            lastUpdated: new Date(),
-            notifications: [],
-          });
+        if (login.role == "Recruiter") {
+          if (userdata) {
+            await setDoc(doc(db, "users", userdata.uid), {
+              organisation_name: login.name,
+              email: login.email,
+              userId: userdata.uid,
+              JobsCreated: [],
+              JobsSaved: [],
+              JobsApplied: [],
+              role: login.role,
+              City: "New Delhi",
+              phone: "9876543210",
+              resume: null,
+              education: [],
+              experience: [],
+              skills: [],
+              projects: [],
+              achievements: [],
+              lastLogin: new Date(),
+              lastUpdated: new Date(),
+              notifications: [],
+            });
+          }
+        } else {
+          if (userdata) {
+            await setDoc(doc(db, "users", userdata.uid), {
+              name: login.name,
+              email: login.email,
+              userId: userdata.uid,
+              JobsCreated: [],
+              JobsSaved: [],
+              JobsApplied: [],
+              role: login.role,
+              address: "Jwala nagar",
+              phone: "9876543210",
+              resume: null,
+              education: [],
+              experience: [],
+              skills: [],
+              projects: [],
+              achievements: [],
+              lastLogin: new Date(),
+              lastUpdated: new Date(),
+              notifications: [],
+            });
+          }
         }
+
         console.log("user Created");
       } catch (error) {
         console.log(error.message);
@@ -63,6 +93,13 @@ const Signup = () => {
     }
   };
   console.log(login);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <div className="flex justify-center items-center flex-col min-h-[77vh] sm:min-h-[84vh]">
       <img
@@ -84,7 +121,11 @@ const Signup = () => {
         onSubmit={handleLogin}
       >
         <label htmlFor="" className="flex flex-col w-full gap-2 ">
-          Full Name
+          {login.role == "Recruiter" ? (
+            <p>Organisation Name</p>
+          ) : (
+            <p>Full Name</p>
+          )}
           <input
             type="text"
             id="name"

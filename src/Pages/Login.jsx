@@ -1,9 +1,14 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
+import { FirebaseContext } from "../context/FirebaseContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 const Login = () => {
+  const { user, setUser } = useContext(FirebaseContext);
+  const navigate = useNavigate();
   const [login, setLogin] = useState({
     email: "",
     password: "",
@@ -14,12 +19,29 @@ const Login = () => {
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
   };
-    const handleLogin = (e) => {
-      
-
-
-        
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (login.email === "" || login.password === "") {
+      alert("Please fill in all fields");
+      return;
+    } else {
+      try {
+        await signInWithEmailAndPassword(auth, login.email, login.password);
+        // setUser(auth.currentUser);
+        window.location.href = "/";
+        setLogin({ email: "", password: "" });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <div className="flex justify-center items-center flex-col min-h-[77vh] sm:min-h-[84vh]">
       <img
@@ -36,12 +58,14 @@ const Login = () => {
         className="h-8 sm:h-8 md:h-8 mb-2"
       />
       <p>Welcome Back!</p>
-      <form className="flex items-center justify-center flex-col gap-4 w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%]  ">
+      <form
+        className="flex items-center justify-center flex-col gap-4 w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%]  "
+        onSubmit={handleLogin}
+      >
         <label htmlFor="" className="flex flex-col w-full gap-2 ">
           Email
           <input
             type="email"
-            id="email"
             name="email"
             value={login.email}
             onChange={loginChange}
@@ -54,7 +78,6 @@ const Login = () => {
           <div>
             <input
               type={password ? "password" : "text"}
-              id="email"
               name="password"
               value={login.password}
               onChange={loginChange}
@@ -78,7 +101,9 @@ const Login = () => {
             )}
           </div>
         </label>
-        <button className="bg-purple-400 w-full p-2 rounded">Login</button>
+        <button className="bg-purple-400 w-full p-2 rounded" type="submit">
+          Login
+        </button>
         <p>
           Don't have an account?{" "}
           <span className="underline text-purple-600">

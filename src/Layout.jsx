@@ -3,7 +3,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 
 import { FirebaseContext } from "./context/FirebaseContext";
 const Layout = () => {
-  const { user } = useContext(FirebaseContext);
+  const { user, userData } = useContext(FirebaseContext);
   const [path, setPath] = useState(window.location.pathname);
   const [menu, setMenu] = useState(false);
   useEffect(() => {
@@ -97,7 +97,10 @@ const Layout = () => {
           {user ? (
             <div
               onClick={() => {
-                navigate("/profile");
+                userData?.role == "Employee"
+                  ? navigate("/profile")
+                  : navigate("/organisation");
+
                 setMenu(false);
               }}
             >

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore"; // Make sure to import the necessary functions
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore"; // Make sure to import the necessary functions
 import { IoLocation } from "react-icons/io5";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
 import { db } from "../config/firebase";
@@ -14,10 +14,10 @@ import { Link } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
 
 const Job = () => {
-  const { jobs } = useContext(FirebaseContext);
+  const { jobs, userData, user } = useContext(FirebaseContext);
+  const [applied, setApplied] = useState(false);
 
   const { id } = useParams();
-  console.log(typeof id);
   const [job, setJob] = useState();
 
   const fetchJobById = async (id) => {
@@ -40,11 +40,40 @@ const Job = () => {
   const suggestedJobs = jobs.filter((job) => {
     return job.id !== id;
   });
-  console.log(suggestedJobs);
+  // console.log(userData.JobsApplied);
+  // console.log(suggestedJobs);
+  const applyButton = async (id) => {
+    if (userData.resume != null && userData.resume != undefined) {
+      try {
+        const userRef = doc(db, "users", user.uid);
+        const jobRef = doc(db, "jobs", id);
+        await updateDoc(jobRef, {
+          resumeReceived: arrayUnion({
+            name: userData.name,
+            id: user.uid,
+            resume: userData.resume,
+          }),
+        });
+        await updateDoc(userRef, {
+          JobsApplied: arrayUnion(id),
+        });
+        setApplied(true);
+
+        // alert("Application submitted successfully!");
+        window.location.reload();
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      alert("Please upload your resume to apply for this job!");
+    }
+  };
+  const val = userData?.JobsApplied?.includes(id);
+  console.log(val);
 
   return (
     <div>
-      <div className="p-4 flex justify-evenly items-center flex-col sm:flex-row mt-10 sm:mt-0">
+      <div className="p-4 flex justify-evenly items-center flex-col sm:flex-row  sm:mt-0">
         <img
           src="https://img.icons8.com/?size=100&id=WP0ZFD6iSQ2B&format=png&color=000000"
           alt=""
@@ -53,17 +82,15 @@ const Job = () => {
             window.history.back();
           }}
         />
-        <div className="md:min-w-[60%] md:max-w-[60%]">
+        <div className=" mt-5 md:mt-8">
           <div className="flex items-center justify-between">
             <h1 className="font-bold text-xl">{job?.title}</h1>
-            
 
-              <img
-                src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000"
-                alt=""
-                className="cursor-pointer h-5 "
-              />
-            
+            <img
+              src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000"
+              alt=""
+              className="cursor-pointer h-5 "
+            />
           </div>
           <div className="flex items-start  justify-start gap-4 mt-5">
             <img src={job?.companyLogo} alt="" className="h-16 sm:h-12" />
@@ -105,7 +132,7 @@ const Job = () => {
                   <div className="mt-3">{job?.responsibilities}</div>
                 </div>
               </div>
-              <div className="p-4 border shadow-md rounded w-[100%] grid grid-cols-2 md:block">
+              <div className="p-4 border shadow-md rounded w-[100%] lg:w-[50%] grid grid-cols-2 md:block">
                 <div>
                   <p className="font-bold mt-8 flex items-center gap-2">
                     {" "}
@@ -142,19 +169,9 @@ const Job = () => {
                   </p>
                   <div className="mt-1">{job?.experience}</div>
                 </div>
+
                 <div>
-                  <p className="font-bold mt-8 flex items-center gap-2">
-                    <img
-                      src="https://img.icons8.com/?size=100&id=60688&format=png&color=000000"
-                      alt=""
-                      className="h-4"
-                    />
-                    Email
-                  </p>
-                  <div className="mt-1">{job?.hireEmail}</div>
-                </div>
-                <div>
-                  <p className="font-bold mt-8 flex items-center gap-2">
+                  <p className="font-bold mt-8 flex items-center gap-2 ">
                     {" "}
                     <img
                       src="https://img.icons8.com/?size=100&id=gqZeQtPB87AG&format=png&color=000000"
@@ -165,12 +182,28 @@ const Job = () => {
                   </p>
                   <div className="mt-1">{job?.type}</div>
                 </div>
+                <div className=" w-[200px]">
+                  <p className="font-bold mt-8 flex items-center gap-2 ">
+                    <img
+                      src="https://img.icons8.com/?size=100&id=60688&format=png&color=000000"
+                      alt=""
+                      className="h-4"
+                    />
+                    Email
+                  </p>
+                  <div className="mt-1 w-[100px]">{job?.hireEmail}</div>
+                </div>
               </div>
             </div>
           </div>
 
-          <p className="mt-6 font-bold text-white bg-purple-600 w-[200px] flex items-center justify-center rounded p-2 cursor-pointer">
-            Apply
+          <p
+            className="mt-6 font-bold text-white bg-purple-600 w-[200px] flex items-center justify-center rounded p-2 cursor-pointer "
+            onClick={() => {
+              val ? "" : applyButton(id);
+            }}
+          >
+            {val ? "Applied" : "Apply"}
           </p>
         </div>
       </div>

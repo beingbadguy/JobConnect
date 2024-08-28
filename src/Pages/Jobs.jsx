@@ -13,9 +13,9 @@ import { FaAngleDown } from "react-icons/fa6";
 
 const Jobs = () => {
   const { searchValue } = useParams();
-  console.log(searchValue);
+  // console.log(searchValue);
 
-  const { jobs } = useContext(FirebaseContext);
+  const { jobs, saveJobs, userData } = useContext(FirebaseContext);
   const [filter, setFilter] = useState(false);
 
   const [newJobs, setNewJobs] = useState();
@@ -26,7 +26,7 @@ const Jobs = () => {
     const { name, value } = e.target;
     setSearch({ ...search, [name]: value });
   };
-  console.log(search);
+  // console.log(search);
 
   const selectedJobs = jobs.filter((job) => {
     return job.title.toLowerCase().includes(search.search.toLowerCase().trim());
@@ -34,6 +34,7 @@ const Jobs = () => {
 
   useEffect(() => {
     setNewJobs(selectedJobs);
+    window.scrollTo(0, 0);
   }, [search]);
   useEffect(() => {
     if (searchValue != undefined && searchValue.length > 2) {
@@ -208,7 +209,7 @@ const Jobs = () => {
                         <div className="flex gap-4">
                           <div className="">
                             <img
-                              src={job.companyLogo}
+                              src={job?.profilePic}
                               alt=""
                               className="h-10 w-10 object-contain"
                             />
@@ -299,11 +300,22 @@ const Jobs = () => {
                           alt=""
                           className="cursor-pointer h-5"
                         /> */}
-                          <img
-                            src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000"
-                            alt=""
-                            className="cursor-pointer h-5"
-                          />
+                          {userData && userData.JobsSaved.includes(job.id) ? (
+                            <img
+                              src="https://img.icons8.com/?size=100&id=59740&format=png&color=000000"
+                              alt=""
+                              className="cursor-pointer h-5"
+                            />
+                          ) : (
+                            <img
+                              src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000"
+                              alt=""
+                              className="cursor-pointer h-5"
+                              onClick={() => {
+                                saveJobs(job.id);
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
                       <div className="flex items-center justify-between my-2">
