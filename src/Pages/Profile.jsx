@@ -88,7 +88,7 @@ const Profile = () => {
     setProfile(files[0]);
     try {
       const uploadRef = ref(storage, `pp/${file.name}`);
-      console.log(files[0].name);
+      // console.log(files[0].name);
       await uploadBytes(uploadRef, file);
       const downloadURL = await getDownloadURL(uploadRef);
 

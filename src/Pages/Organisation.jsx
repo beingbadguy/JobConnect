@@ -82,7 +82,7 @@ const Profile = () => {
     }
   };
 
-  console.log(userData?.profilePic);
+  // console.log(userData?.profilePic);
   // console.log(profile?.name);
   // console.log(profile.name);
   const changeProfile = async (e) => {
@@ -91,7 +91,7 @@ const Profile = () => {
     setProfile(files[0]);
     try {
       const uploadRef = ref(storage, `pp/${file.name}`);
-      console.log(files[0].name);
+      // console.log(files[0].name);
       await uploadBytes(uploadRef, file);
       const downloadURL = await getDownloadURL(uploadRef);
 
@@ -111,7 +111,7 @@ const Profile = () => {
     setResume(files[0]);
     try {
       const uploadRef = ref(storage, `pp/${file.name}`);
-      console.log(files[0].name);
+      // console.log(files[0].name);
       await uploadBytes(uploadRef, file);
       const downloadURL = await getDownloadURL(uploadRef);
 
@@ -141,7 +141,7 @@ const Profile = () => {
   const jobsCreatedByMe = jobs.filter((job) => {
     return job.createdBy === user.uid;
   });
-  console.log(jobsCreatedByMe);
+  // console.log(jobsCreatedByMe);
   useEffect(() => {}, []);
 
   return (
