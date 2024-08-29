@@ -45,8 +45,8 @@ const App = () => {
           >
             Search
           </button>
-          <p>{error}</p>
         </div>
+        <p className="mt-2 text-red-200">{error}</p>
       </div>
     </div>
   );
