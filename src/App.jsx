@@ -4,35 +4,10 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const App = () => {
-  const [motivation, setMotivation] = useState(null);
-
-  const fetchData = async () => {
-    const random = Math.floor(Math.random() * 625);
-    console.log(random);
-    const options = {
-      method: "GET",
-      url: `https://motivational-content.p.rapidapi.com/quotes/${random}`,
-      headers: {
-        "x-rapidapi-key": "477a591f2dmshc8a45bdb89b6a96p181744jsn5b823e98fb64",
-        "x-rapidapi-host": "motivational-content.p.rapidapi.com",
-      },
-    };
-    try {
-      const response = await axios.request(options);
-      console.log(response.data.quote);
-      setMotivation(response.data.quote);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  useEffect(() => {}, []);
   const navigate = useNavigate();
   const inputRef = useRef();
   return (
@@ -67,11 +42,6 @@ const App = () => {
           >
             Search
           </button>
-        </div>
-        <div className="my-4 mx-5 text-center absolute bottom-20 ">
-          <p className="text-purple-600 max-w-[600px] italic font-semibold">
-            {motivation}
-          </p>
         </div>
       </div>
     </div>

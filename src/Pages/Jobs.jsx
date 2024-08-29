@@ -85,10 +85,10 @@ const Jobs = () => {
             </button>
           </div>
           {/* filter  */}
-          <div
+          {/* <div
             className={`border  p-2 min-w-[250px] md:flex flex-col rounded pl-3 shadow-sm shadow-gray-400  mb-6 ${
               filter ? "h-[620px]" : "h-10"
-            } transition-all duration-500 h-10 overflow-hidden cursor-pointer `}
+            } transition-all duration-500 h-10 overflow-hidden cursor-pointer  `}
           >
             <div
               className="flex items-center justify-between"
@@ -140,7 +140,6 @@ const Jobs = () => {
             >
               <option value="">Remote</option>
               <option value="">On Site</option>
-              {/* <option value=""></option> */}
             </select>
             <label className="mt-4 font-bold flex items-center gap-1">
               <VscGear /> Job Type
@@ -190,7 +189,7 @@ const Jobs = () => {
             <div className="flex justify-between mt-3">
               <p>{rangeValue} Lakhs</p>
             </div>
-          </div>
+          </div> */}
 
           {/* all about jobs  */}
           <div className="  ">
@@ -209,7 +208,7 @@ const Jobs = () => {
                         <div className="flex gap-4">
                           <div className="">
                             <img
-                              src={job?.profilePic}
+                              src={job?.companyLogo}
                               alt=""
                               className="h-10 w-10 object-contain"
                             />
@@ -221,16 +220,22 @@ const Jobs = () => {
                         </div>
 
                         <div className=" p-2">
-                          {/* <img
-                          src="https://img.icons8.com/?size=100&id=59740&format=png&color=000000"
-                          alt=""
-                          className="cursor-pointer h-5"
-                        /> */}
-                          <img
-                            src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000"
-                            alt=""
-                            className="cursor-pointer h-5"
-                          />
+                          {userData && userData.JobsSaved.includes(job.id) ? (
+                            <img
+                              src="https://img.icons8.com/?size=100&id=59740&format=png&color=000000"
+                              alt=""
+                              className="cursor-pointer h-5"
+                            />
+                          ) : (
+                            <img
+                              src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000"
+                              alt=""
+                              className="cursor-pointer h-5"
+                              onClick={() => {
+                                saveJobs(job.id);
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
                       <div className="flex items-center justify-between my-2">

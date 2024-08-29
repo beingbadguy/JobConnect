@@ -12,10 +12,13 @@ import { FirebaseContext } from "../context/FirebaseContext";
 import { CiSaveDown2 } from "react-icons/ci";
 import { MdOutlineStar } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
 
 const Post = () => {
   const { user, userData } = useContext(FirebaseContext);
-  console.log(user?.uid);
+  const [loader, setLoader] = useState(false);
+
+  // console.log(user?.uid);
   const [form, setForm] = useState({
     title: "",
     workPreference: "",
@@ -98,6 +101,7 @@ const Post = () => {
       //   await uploadBytes(fileRef, form.companyLogo);
       //   downloadURL = await getDownloadURL(fileRef);
       // }
+      setLoader(true);
 
       const jobRef = collection(db, "jobs");
       await addDoc(jobRef, {
@@ -132,8 +136,11 @@ const Post = () => {
         hireEmail: "",
         peopleApplied: [],
       });
+      setLoader(false);
+      navigate("/jobs");
     } catch (error) {
       console.error("Error posting job:", error);
+      setLoader(false);
     }
   };
   useEffect(() => {
@@ -359,12 +366,24 @@ const Post = () => {
                   className="p-2 outline-none border bg-gray-100 placeholder:text-black rounded my-2"
                 />
               </div>
-              <p
-                className="text-center bg-black p-2 mt-4 text-white rounded cursor-pointer"
+              <div
+                className="text-center bg-black p-2 mt-4 text-white rounded cursor-pointer flex items-center justify-center"
                 onClick={handleSubmit}
               >
-                Post!
-              </p>
+                {loader ? (
+                  <Oval
+                    visible={true}
+                    height="20"
+                    width="20"
+                    color="violet"
+                    ariaLabel="oval-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                ) : (
+                  "Post"
+                )}
+              </div>
             </form>
           </div>
         </div>

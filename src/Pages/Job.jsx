@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
 
 const Job = () => {
-  const { jobs, userData, user } = useContext(FirebaseContext);
+  const { jobs, userData, user, saveJobs } = useContext(FirebaseContext);
   const [applied, setApplied] = useState(false);
 
   const { id } = useParams();
@@ -69,7 +69,6 @@ const Job = () => {
     }
   };
   const val = userData?.JobsApplied?.includes(id);
-  console.log(val);
 
   return (
     <div>
@@ -86,11 +85,22 @@ const Job = () => {
           <div className="flex items-center justify-between">
             <h1 className="font-bold text-xl">{job?.title}</h1>
 
-            <img
-              src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000"
-              alt=""
-              className="cursor-pointer h-5 "
-            />
+            {userData && userData.JobsSaved.includes(id) ? (
+              <img
+                src="https://img.icons8.com/?size=100&id=59740&format=png&color=000000"
+                alt=""
+                className="cursor-pointer h-5"
+              />
+            ) : (
+              <img
+                src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000"
+                alt=""
+                className="cursor-pointer h-5"
+                onClick={() => {
+                  saveJobs(id);
+                }}
+              />
+            )}
           </div>
           <div className="flex items-start  justify-start gap-4 mt-5">
             <img src={job?.companyLogo} alt="" className="h-16 sm:h-12" />
@@ -233,11 +243,22 @@ const Job = () => {
                   </div>
 
                   <div className=" p-2">
-                    <img
-                      src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000"
-                      alt=""
-                      className="cursor-pointer h-5"
-                    />
+                    {userData && userData.JobsSaved.includes(job.id) ? (
+                      <img
+                        src="https://img.icons8.com/?size=100&id=59740&format=png&color=000000"
+                        alt=""
+                        className="cursor-pointer h-5"
+                      />
+                    ) : (
+                      <img
+                        src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000"
+                        alt=""
+                        className="cursor-pointer h-5"
+                        onClick={() => {
+                          saveJobs(job.id);
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center justify-between my-2">

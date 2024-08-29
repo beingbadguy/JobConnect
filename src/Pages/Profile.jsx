@@ -4,14 +4,84 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../config/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { IoLocation } from "react-icons/io5";
+import { BiSolidCategoryAlt } from "react-icons/bi";
+import { VscGear } from "react-icons/vsc";
+import { IoIosStar } from "react-icons/io";
+import { MdOutlineCurrencyRupee } from "react-icons/md";
+import { CiSaveDown2 } from "react-icons/ci";
+import { MdOutlineStar } from "react-icons/md";
+import { Link, useParams } from "react-router-dom";
+import { FaAngleDown } from "react-icons/fa6";
 
 const Profile = () => {
-  const { logout, user, userData } = useContext(FirebaseContext);
+  const { logout, user, userData, saveJobs } = useContext(FirebaseContext);
   const [profile, setProfile] = useState(null);
   const [resume, setResume] = useState(null);
-  console.log(userData?.profilePic);
-  // console.log(profile?.name);
-  // console.log(profile.name);
+  const [save, setSave] = useState([]);
+  const [name, setName] = useState(false);
+  const [editName, setEditName] = useState({
+    name: "",
+  });
+  const handleName = (e) => {
+    const { name, value } = e.target;
+    setEditName({ ...editName, [name]: value });
+  };
+  const changeName = async () => {
+    try {
+      const nameRef = doc(db, "users", user.uid);
+      await updateDoc(nameRef, {
+        name: editName.name,
+      });
+      setEditName({ name: "" });
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const [phone, setPhone] = useState(false);
+  const [editPhone, setEditPhone] = useState({
+    phone: "",
+  });
+  const handlePhone = (e) => {
+    const { name, value } = e.target;
+    setEditPhone({ ...editPhone, [name]: value });
+  };
+  const changePhone = async () => {
+    try {
+      const phoneRef = doc(db, "users", user.uid);
+      await updateDoc(phoneRef, {
+        phone: editPhone.phone,
+      });
+      setEditPhone({ phone: "" });
+
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const [address, setAddress] = useState(false);
+  const [editAddress, setEditAddress] = useState({
+    address: "",
+  });
+  const handleAddress = (e) => {
+    const { name, value } = e.target;
+    setEditAddress({ ...editAddress, [name]: value });
+  };
+  const changeAddress = async () => {
+    try {
+      const addressRef = doc(db, "users", user.uid);
+      await updateDoc(addressRef, {
+        address: editAddress.address,
+      });
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const changeProfile = async (e) => {
     const { files } = e.target;
     const file = files[0];
@@ -52,13 +122,56 @@ const Profile = () => {
       console.log(error.message);
     }
   };
+
+  const fetchJobById = async (id) => {
+    try {
+      const jobRef = doc(db, "jobs", id);
+      const job = await getDoc(jobRef);
+      if (!job.exists()) {
+        console.log("No such document!");
+        return;
+      }
+      const data = job.data();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const fetchSavedJobs = async () => {
+    if (userData?.JobsSaved?.length > 0) {
+      try {
+        // Fetch all jobs concurrently
+        const jobs = await Promise.all(
+          userData.JobsSaved.map((job) => fetchJobById(job))
+        );
+        console.log(jobs); // This will log an array of job data
+        setSave(jobs);
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      console.log("No saved jobs.");
+      return [];
+    }
+  };
+
+  // Call the function to fetch saved jobs
+
   useEffect(() => {}, [changeProfile]);
+  useEffect(() => {
+    fetchSavedJobs();
+  }, [user, userData]);
+
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
   }, []);
+
+  console.log(editName);
 
   return (
     <div className="min-h-[78vh] md:min-h-[85vh] mb-6">
@@ -126,29 +239,142 @@ const Profile = () => {
           </div>
         </div>
         <hr className="mt-4" />
-        <div className="flex items-start flex-col mt-4">
-          <p>Name</p>
-          <p className="text-purple-600">{userData?.name}</p>
-        </div>
-        <div className="flex items-start flex-col mt-4">
-          <p>Email</p>
-          <p className="text-purple-600">{user?.email}</p>
-        </div>
-        <div className="flex items-start flex-col mt-4">
-          <p>Contact</p>
-          <p className="text-purple-600">{userData?.phone}</p>
-        </div>
-        <div className="flex items-start flex-col mt-4">
-          <p>Role</p>
-          <p className="text-purple-600">{userData?.role}</p>
-        </div>
-        <div className="flex items-start flex-col mt-4">
-          <p>Address</p>
-          <p className="text-purple-600">{userData?.address}</p>
-        </div>
-        <div className="flex items-start  flex-col mt-4">
-          <div>
-            <p>Resume</p>
+        <div className="grid">
+          <div className="flex items-start flex-col mt-4">
+            <div className="flex items-center justify-between w-full">
+              <p>Name</p>
+              <img
+                src={
+                  name
+                    ? "https://img.icons8.com/?size=100&id=46&format=png&color=000000"
+                    : "https://img.icons8.com/?size=100&id=88584&format=png&color=000000"
+                }
+                alt=""
+                className="h-4"
+                onClick={() => {
+                  setName(!name);
+                }}
+              />
+            </div>
+            <p className={`text-purple-600 ${name ? "hidden" : "block"} `}>
+              {userData?.name}
+            </p>
+            <div
+              className={`${
+                name ? "block" : "hidden"
+              } flex items-center justify-between w-full  `}
+            >
+              <input
+                type="text"
+                name="name"
+                value={editName.name}
+                onChange={handleName}
+                className={`${
+                  name ? "block" : "hidden"
+                } border outline-none border-purple-500 rounded px-1 `}
+              />
+              <img
+                src="https://img.icons8.com/?size=100&id=98955&format=png&color=000000"
+                alt=""
+                className="h-4"
+                onClick={changeName}
+              />
+            </div>
+          </div>
+          <div className="flex items-start flex-col mt-4">
+            <p>Email</p>
+            <p className="text-purple-600">{user?.email}</p>
+          </div>
+          <div className="flex items-start flex-col mt-4">
+            <div className="flex items-center justify-between w-full">
+              <p>Phone</p>
+              <img
+                src={
+                  phone
+                    ? "https://img.icons8.com/?size=100&id=46&format=png&color=000000"
+                    : "https://img.icons8.com/?size=100&id=88584&format=png&color=000000"
+                }
+                alt=""
+                className="h-4"
+                onClick={() => {
+                  setPhone(!phone);
+                }}
+              />
+            </div>
+            <p className={`text-purple-600 ${phone ? "hidden" : "block"} `}>
+              {userData?.phone}
+            </p>
+            <div
+              className={`${
+                phone ? "block" : "hidden"
+              } flex items-center justify-between w-full  `}
+            >
+              <input
+                type="number"
+                name="phone"
+                value={editPhone.phone}
+                onChange={handlePhone}
+                className={`${
+                  phone ? "block" : "hidden"
+                } border outline-none border-purple-500 rounded px-1 `}
+              />
+              <img
+                src="https://img.icons8.com/?size=100&id=98955&format=png&color=000000"
+                alt=""
+                className="h-4"
+                onClick={changePhone}
+              />
+            </div>
+          </div>
+          <div className="flex items-start flex-col mt-4">
+            <p>Role</p>
+            <p className="text-purple-600">{userData?.role}</p>
+          </div>
+          <div className="flex items-start flex-col mt-4">
+            <div className="flex items-center justify-between w-full">
+              <p>Address</p>
+              <img
+                src={
+                  address
+                    ? "https://img.icons8.com/?size=100&id=46&format=png&color=000000"
+                    : "https://img.icons8.com/?size=100&id=88584&format=png&color=000000"
+                }
+                alt=""
+                className="h-4"
+                onClick={() => {
+                  setAddress(!address);
+                }}
+              />
+            </div>
+            <p className={`text-purple-600 ${address ? "hidden" : "block"} `}>
+              {userData?.address}
+            </p>
+            <div
+              className={`${
+                address ? "block" : "hidden"
+              } flex items-center justify-between w-full  `}
+            >
+              <input
+                type="text"
+                name="address"
+                value={editAddress.address}
+                onChange={handleAddress}
+                className={`${
+                  address ? "block" : "hidden"
+                } border outline-none border-purple-500 rounded px-1 `}
+              />
+              <img
+                src="https://img.icons8.com/?size=100&id=98955&format=png&color=000000"
+                alt=""
+                className="h-4"
+                onClick={changeAddress}
+              />
+            </div>
+          </div>
+          <div className="flex items-start  flex-col mt-4">
+            <div>
+              <p>Resume</p>
+            </div>
           </div>
           <div className="flex items-center justify-between w-full ">
             {userData?.resume ? (
@@ -178,6 +404,67 @@ const Profile = () => {
                   accept=".pdf"
                 />
               </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-4">
+          <p className="mb-2">Saved Jobs</p>
+          <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {save &&
+                save.map((job, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col border p-2 rounded shadow-md"
+                  >
+                    <div className="flex items-center justify-between gap-5">
+                      <div className="flex gap-4">
+                        <div className="">
+                          <img
+                            src={job.companyLogo}
+                            alt=""
+                            className="h-10 w-10 object-contain"
+                          />
+                        </div>
+                        <div>
+                          <div className="font-bold">{job.title}</div>
+                          <div>{job.companyName}.</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between my-2">
+                      <div className="flex items-center gap-1">
+                        <MdOutlineCurrencyRupee />
+
+                        {job.salary + "L"}
+                      </div>
+                      <div className="flex items-center gap-1 my-1">
+                        <IoLocation /> {job.location}
+                      </div>
+                    </div>
+
+                    <div>{job.description.slice(0, 80) + "..."} </div>
+                    {/* <div className="flex gap-2 flex-wrap mt-2">
+                      {job?.skills.map((skill, i) => (
+                        <div
+                          key={i}
+                          className="border px-2  border-purple-600 text-purple-600"
+                        >
+                          <div>{skill}</div>
+                        </div>
+                      ))}
+                    </div> */}
+                    <div className="flex ic justify-between mt-2 mb-1">
+                      <div className="flex items-center gap-1">
+                        <MdOutlineStar className="text-yellow-500" />
+                        <MdOutlineStar className="text-yellow-500" />
+                        <MdOutlineStar className="text-yellow-500" />
+                        <MdOutlineStar className="text-yellow-500" />
+                        <MdOutlineStar className="text-yellow-500" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
