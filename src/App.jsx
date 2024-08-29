@@ -36,7 +36,7 @@ const App = () => {
           <button
             className={` font-bold bg-black text-white p-2 rounded w-[70%]  sm:w-[20%]`}
             onClick={() => {
-              if (inputRef.current.value.length >= 2) {
+              if (inputRef.current.value.length >= 3) {
                 navigate(`/jobs/${inputRef.current.value}`);
               } else {
                 setError("Please Enter a valid job name");
