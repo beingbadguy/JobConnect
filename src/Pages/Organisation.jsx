@@ -18,6 +18,70 @@ const Profile = () => {
   const { logout, user, userData, jobs } = useContext(FirebaseContext);
   const [profile, setProfile] = useState(null);
   const [resume, setResume] = useState(null);
+
+  const [name, setName] = useState(false);
+  const [editName, setEditName] = useState({
+    name: "",
+  });
+  const handleName = (e) => {
+    const { name, value } = e.target;
+    setEditName({ ...editName, [name]: value });
+  };
+  const changeName = async () => {
+    try {
+      const nameRef = doc(db, "users", user.uid);
+      await updateDoc(nameRef, {
+        name: editName.name,
+      });
+      setEditName({ name: "" });
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const [phone, setPhone] = useState(false);
+  const [editPhone, setEditPhone] = useState({
+    phone: "",
+  });
+  const handlePhone = (e) => {
+    const { name, value } = e.target;
+    setEditPhone({ ...editPhone, [name]: value });
+  };
+  const changePhone = async () => {
+    try {
+      const phoneRef = doc(db, "users", user.uid);
+      await updateDoc(phoneRef, {
+        phone: editPhone.phone,
+      });
+      setEditPhone({ phone: "" });
+
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const [address, setAddress] = useState(false);
+  const [editAddress, setEditAddress] = useState({
+    address: "",
+  });
+  const handleAddress = (e) => {
+    const { name, value } = e.target;
+    setEditAddress({ ...editAddress, [name]: value });
+  };
+  const changeAddress = async () => {
+    try {
+      const addressRef = doc(db, "users", user.uid);
+      await updateDoc(addressRef, {
+        address: editAddress.address,
+      });
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   console.log(userData?.profilePic);
   // console.log(profile?.name);
   // console.log(profile.name);
@@ -146,22 +210,159 @@ const Profile = () => {
           </div>
         </div>
         <hr className="mt-4" />
-        <div className="flex items-start flex-col mt-4">
-          <p>Organisation Name</p>
-          <p className="text-purple-600">{userData?.name}</p>
-        </div>
-        <div className="flex items-start flex-col mt-4">
-          <p>Email</p>
-          <p className="text-purple-600">{user?.email}</p>
-        </div>
-        <div className="flex items-start flex-col mt-4">
-          <p>Contact</p>
-          <p className="text-purple-600">{userData?.phone}</p>
-        </div>
-
-        <div className="flex items-start flex-col mt-4">
-          <p>Organisation City</p>
-          <p className="text-purple-600">{userData?.address}</p>
+        <div className="grid">
+          <div className="flex items-start flex-col mt-4">
+            <div className="flex items-center justify-between w-full">
+              <p>Name</p>
+              <img
+                src={
+                  name
+                    ? "https://img.icons8.com/?size=100&id=46&format=png&color=000000"
+                    : "https://img.icons8.com/?size=100&id=88584&format=png&color=000000"
+                }
+                alt=""
+                className="h-4"
+                onClick={() => {
+                  setName(!name);
+                }}
+              />
+            </div>
+            <p className={`text-purple-600 ${name ? "hidden" : "block"} `}>
+              {userData?.name}
+            </p>
+            <div
+              className={`${
+                name ? "block" : "hidden"
+              } flex items-center justify-between w-full  `}
+            >
+              <input
+                type="text"
+                name="name"
+                value={editName.name}
+                onChange={handleName}
+                className={`${
+                  name ? "block" : "hidden"
+                } border outline-none border-purple-500 rounded px-1 `}
+              />
+              <img
+                src="https://img.icons8.com/?size=100&id=98955&format=png&color=000000"
+                alt=""
+                className="h-4"
+                onClick={() => {
+                  if (editName.name.length <= 0) {
+                    alert("Please Enter a name");
+                    return;
+                  } else {
+                    changeName();
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <div className="flex items-start flex-col mt-4">
+            <p>Email</p>
+            <p className="text-purple-600">{user?.email}</p>
+          </div>
+          <div className="flex items-start flex-col mt-4">
+            <div className="flex items-center justify-between w-full">
+              <p>Phone</p>
+              <img
+                src={
+                  phone
+                    ? "https://img.icons8.com/?size=100&id=46&format=png&color=000000"
+                    : "https://img.icons8.com/?size=100&id=88584&format=png&color=000000"
+                }
+                alt=""
+                className="h-4"
+                onClick={() => {
+                  setPhone(!phone);
+                }}
+              />
+            </div>
+            <p className={`text-purple-600 ${phone ? "hidden" : "block"} `}>
+              {userData?.phone}
+            </p>
+            <div
+              className={`${
+                phone ? "block" : "hidden"
+              } flex items-center justify-between w-full  `}
+            >
+              <input
+                type="number"
+                name="phone"
+                value={editPhone.phone}
+                onChange={handlePhone}
+                className={`${
+                  phone ? "block" : "hidden"
+                } border outline-none border-purple-500 rounded px-1 `}
+              />
+              <img
+                src="https://img.icons8.com/?size=100&id=98955&format=png&color=000000"
+                alt=""
+                className="h-4"
+                onClick={() => {
+                  if (editPhone.phone.length <= 0) {
+                    alert("Please Enter a phone");
+                    return;
+                  } else {
+                    changePhone();
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <div className="flex items-start flex-col mt-4">
+            <p>Role</p>
+            <p className="text-purple-600">{userData?.role}</p>
+          </div>
+          <div className="flex items-start flex-col mt-4">
+            <div className="flex items-center justify-between w-full">
+              <p>Address</p>
+              <img
+                src={
+                  address
+                    ? "https://img.icons8.com/?size=100&id=46&format=png&color=000000"
+                    : "https://img.icons8.com/?size=100&id=88584&format=png&color=000000"
+                }
+                alt=""
+                className="h-4"
+                onClick={() => {
+                  setAddress(!address);
+                }}
+              />
+            </div>
+            <p className={`text-purple-600 ${address ? "hidden" : "block"} `}>
+              {userData?.address}
+            </p>
+            <div
+              className={`${
+                address ? "block" : "hidden"
+              } flex items-center justify-between w-full  `}
+            >
+              <input
+                type="text"
+                name="address"
+                value={editAddress.address}
+                onChange={handleAddress}
+                className={`${
+                  address ? "block" : "hidden"
+                } border outline-none border-purple-500 rounded px-1 `}
+              />
+              <img
+                src="https://img.icons8.com/?size=100&id=98955&format=png&color=000000"
+                alt=""
+                className="h-4"
+                onClick={() => {
+                  if (editAddress.address.length <= 0) {
+                    alert("Please Enter a address");
+                    return;
+                  } else {
+                    changeAddress();
+                  }
+                }}
+              />
+            </div>
+          </div>
         </div>
         <div className="mt-4">
           <p>Created Jobs</p>
@@ -227,7 +428,7 @@ const Profile = () => {
                       <p>Resume</p>
                     </div>
                     <div>
-                      {job.resumeReceived.map((name, index) => (
+                      {job?.resumeReceived?.map((name, index) => (
                         <div key={index} className="flex justify-between mt-2">
                           <p className="font-bold">{name.name}</p>
                           <a

@@ -6,10 +6,13 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { FirebaseContext } from "../context/FirebaseContext";
+import { Oval } from "react-loader-spinner";
 
 const Signup = () => {
   const { user } = useContext(FirebaseContext);
   const navigate = useNavigate();
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState("");
 
   const [login, setLogin] = useState({
     name: "",
@@ -33,9 +36,11 @@ const Signup = () => {
       login.role != ""
     ) {
       try {
+        setLoader(true);
+
         await createUserWithEmailAndPassword(auth, login.email, login.password);
         const userdata = auth.currentUser;
-        console.log(userdata);
+        // console.log(userdata);
         if (login.role == "Recruiter") {
           if (userdata) {
             await setDoc(doc(db, "users", userdata.uid), {
@@ -59,6 +64,7 @@ const Signup = () => {
               notifications: [],
             });
           }
+          setLoader(false);
         } else {
           if (userdata) {
             await setDoc(doc(db, "users", userdata.uid), {
@@ -85,14 +91,18 @@ const Signup = () => {
         }
 
         console.log("user Created");
+        setLoader(false);
+        navigate("/");
       } catch (error) {
         console.log(error.message);
+        setError(error.message);
+        setLoader(false);
       }
     } else {
-      alert("please fill all fields");
+      setError("please fill all fields");
     }
   };
-  console.log(login);
+  // console.log(login);
 
   useEffect(() => {
     if (user) {
@@ -116,6 +126,8 @@ const Signup = () => {
         className="h-8 sm:h-8 md:h-8 mb-2"
       />
       <p>Welcome Back!</p>
+      {error != "" ? <p className="text-sm text-red-500 mt-4">{error}</p> : ""}
+
       <form
         className="flex items-center justify-center flex-col gap-4 w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%] "
         onSubmit={handleLogin}
@@ -196,8 +208,23 @@ const Signup = () => {
             </select>
           </div>
         </label>
-        <button className="bg-purple-400 w-full p-2 rounded" type="submit">
-          Create Account
+        <button
+          className="bg-purple-400 w-full p-2 rounded flex items-center justify-center"
+          type="submit"
+        >
+          {loader ? (
+            <Oval
+              visible={true}
+              height="20"
+              width="20"
+              color="white"
+              ariaLabel="oval-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          ) : (
+            "Signup"
+          )}
         </button>
         <p>
           Already have an account?{" "}

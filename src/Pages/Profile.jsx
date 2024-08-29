@@ -108,7 +108,7 @@ const Profile = () => {
     setResume(files[0]);
     try {
       const uploadRef = ref(storage, `pp/${file.name}`);
-      console.log(files[0].name);
+      // console.log(files[0].name);
       await uploadBytes(uploadRef, file);
       const downloadURL = await getDownloadURL(uploadRef);
 
@@ -132,7 +132,7 @@ const Profile = () => {
         return;
       }
       const data = job.data();
-      console.log(data);
+      // console.log(data);
       return data;
     } catch (error) {
       console.log(error.message);
@@ -146,13 +146,13 @@ const Profile = () => {
         const jobs = await Promise.all(
           userData.JobsSaved.map((job) => fetchJobById(job))
         );
-        console.log(jobs); // This will log an array of job data
+        // console.log(jobs); // This will log an array of job data
         setSave(jobs);
       } catch (error) {
         console.log(error.message);
       }
     } else {
-      console.log("No saved jobs.");
+      // console.log("No saved jobs.");
       return [];
     }
   };
@@ -171,7 +171,7 @@ const Profile = () => {
     }
   }, []);
 
-  console.log(editName);
+  // console.log(editName);
 
   return (
     <div className="min-h-[78vh] md:min-h-[85vh] mb-6">
@@ -277,7 +277,14 @@ const Profile = () => {
                 src="https://img.icons8.com/?size=100&id=98955&format=png&color=000000"
                 alt=""
                 className="h-4"
-                onClick={changeName}
+                onClick={() => {
+                  if (editName.name.length <= 0) {
+                    alert("Please Enter a name");
+                    return;
+                  } else {
+                    changeName();
+                  }
+                }}
               />
             </div>
           </div>
@@ -322,7 +329,14 @@ const Profile = () => {
                 src="https://img.icons8.com/?size=100&id=98955&format=png&color=000000"
                 alt=""
                 className="h-4"
-                onClick={changePhone}
+                onClick={() => {
+                  if (editPhone.phone.length <= 0) {
+                    alert("Please Enter a phone");
+                    return;
+                  } else {
+                    changePhone();
+                  }
+                }}
               />
             </div>
           </div>
@@ -367,7 +381,14 @@ const Profile = () => {
                 src="https://img.icons8.com/?size=100&id=98955&format=png&color=000000"
                 alt=""
                 className="h-4"
-                onClick={changeAddress}
+                onClick={() => {
+                  if (editAddress.address.length <= 0) {
+                    alert("Please Enter a address");
+                    return;
+                  } else {
+                    changeAddress();
+                  }
+                }}
               />
             </div>
           </div>

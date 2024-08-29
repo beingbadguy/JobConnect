@@ -24,7 +24,7 @@ const MainContext = ({ children }) => {
     }));
 
     setJobs(jobs);
-    console.log(jobs);
+    // console.log(jobs);
   };
   const [userData, setUserData] = useState();
 
@@ -34,7 +34,7 @@ const MainContext = ({ children }) => {
     if (userSnapshot.exists()) {
       const userData = userSnapshot.data();
       setUserData(userData);
-      console.table("User data:", userData);
+      // console.table("User data:", userData);
     } else {
       console.log("no such user exists");
     }

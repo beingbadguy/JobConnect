@@ -10,6 +10,7 @@ const App = () => {
   useEffect(() => {}, []);
   const navigate = useNavigate();
   const inputRef = useRef();
+  const [error, setError] = useState("");
   return (
     <div className="">
       {/* hero  */}
@@ -33,15 +34,18 @@ const App = () => {
             <IoSearchOutline className="text-xl" />
           </div>
           <button
-            className=" font-bold bg-black text-white p-2 rounded w-[70%]  sm:w-[20%]"
+            className={` font-bold bg-black text-white p-2 rounded w-[70%]  sm:w-[20%]`}
             onClick={() => {
-              if (inputRef.current.value.length > 2) {
+              if (inputRef.current.value.length >= 2) {
                 navigate(`/jobs/${inputRef.current.value}`);
+              } else {
+                setError("Please Enter a valid job name");
               }
             }}
           >
             Search
           </button>
+          <p>{error}</p>
         </div>
       </div>
     </div>

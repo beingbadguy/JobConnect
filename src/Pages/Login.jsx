@@ -4,6 +4,7 @@ import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
 import { FirebaseContext } from "../context/FirebaseContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { Oval } from "react-loader-spinner";
 import { auth } from "../config/firebase";
 
 const Login = () => {
@@ -13,6 +14,9 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState("");
 
   const [password, setPassword] = useState(true);
   const loginChange = (e) => {
@@ -26,12 +30,16 @@ const Login = () => {
       return;
     } else {
       try {
+        setLoader(true);
         await signInWithEmailAndPassword(auth, login.email, login.password);
         // setUser(auth.currentUser);
         window.location.href = "/";
         setLogin({ email: "", password: "" });
+        setLoader(false);
       } catch (error) {
         console.log(error.message);
+        setError(error.message);
+        setLoader(true);
       }
     }
   };
@@ -58,6 +66,7 @@ const Login = () => {
         className="h-8 sm:h-8 md:h-8 mb-2"
       />
       <p>Welcome Back!</p>
+      {error != "" ? <p className="text-sm text-red-500 mt-4">{error}</p> : ""}
       <form
         className="flex items-center justify-center flex-col gap-4 w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%]  "
         onSubmit={handleLogin}
@@ -101,11 +110,24 @@ const Login = () => {
             )}
           </div>
         </label>
-        <button className="bg-purple-400 w-full p-2 rounded" type="submit">
-          Login
+
+        <button className="bg-purple-400 w-full p-2 rounded flex items-center justify-center" type="submit">
+          {loader ? (
+            <Oval
+              visible={true}
+              height="20"
+              width="20"
+              color="white"
+              ariaLabel="oval-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          ) : (
+            "Login"
+          )}
         </button>
         <p>
-          Don't have an account?{" "}
+          Don't have an account?``
           <span className="underline text-purple-600">
             <Link to={"/signup"}> Signup </Link>
           </span>

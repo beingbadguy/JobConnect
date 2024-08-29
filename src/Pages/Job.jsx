@@ -27,7 +27,7 @@ const Job = () => {
     if (jobSnapshot.exists()) {
       const jobData = jobSnapshot.data();
       setJob(jobData);
-      console.log("Job data:", jobData);
+      // console.log("Job data:", jobData);
     } else {
       console.log("No such document!");
     }
@@ -208,7 +208,9 @@ const Job = () => {
           </div>
 
           <p
-            className="mt-6 font-bold text-white bg-purple-600 w-[200px] flex items-center justify-center rounded p-2 cursor-pointer "
+            className={`mt-6 font-bold text-white bg-purple-600 w-[200px] flex items-center justify-center rounded p-2 cursor-pointer ${
+              userData?.role === "Recruiter" ? "hidden " : ""
+            }`}
             onClick={() => {
               val ? "" : applyButton(id);
             }}
