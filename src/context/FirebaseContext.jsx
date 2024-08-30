@@ -87,7 +87,7 @@ const MainContext = ({ children }) => {
 
   return (
     <FirebaseContext.Provider
-      value={{ jobs, user, logout, setUser, userData, saveJobs }}
+      value={{ jobs, user, logout, setUser, userData, saveJobs, fetchJobs }}
     >
       {children}
     </FirebaseContext.Provider>

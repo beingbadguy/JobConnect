@@ -13,7 +13,6 @@ import { FaAngleDown } from "react-icons/fa6";
 
 const Jobs = () => {
   const { searchValue } = useParams();
-  // console.log(searchValue);
 
   const { jobs, saveJobs, userData, user } = useContext(FirebaseContext);
   const [filter, setFilter] = useState(false);
@@ -255,16 +254,16 @@ const Jobs = () => {
                       </div>
 
                       <div>{job.description.slice(0, 80) + "..."} </div>
-                      {/* <div className="flex gap-2 flex-wrap mt-2">
-                      {job?.skills.map((skill, i) => (
-                        <div
-                          key={i}
-                          className="border px-2  border-purple-600 text-purple-600"
-                        >
-                          <div>{skill}</div>
-                        </div>
-                      ))}
-                    </div> */}
+                      <div className="flex gap-2 flex-wrap mt-2">
+                        {job?.skills.split(",").map((skill, i) => (
+                          <div
+                            key={i}
+                            className="border px-2  border-purple-600 text-purple-600"
+                          >
+                            <div>{skill}</div>
+                          </div>
+                        ))}
+                      </div>
                       <div className="flex ic justify-between mt-2 mb-1">
                         <div className="flex items-center gap-1">
                           <MdOutlineStar className="text-yellow-500" />
@@ -344,16 +343,16 @@ const Jobs = () => {
                       </div>
 
                       <div>{job.description.slice(0, 80) + "..."} </div>
-                      {/* <div className="flex gap-2 flex-wrap mt-2">
-                      {job?.skills.map((skill, i) => (
-                        <div
-                          key={i}
-                          className="border px-2  border-purple-600 text-purple-600"
-                        >
-                          <div>{skill}</div>
-                        </div>
-                      ))}
-                    </div> */}
+                      <div className="flex gap-2 flex-wrap mt-2">
+                        {job?.skills.split(",").map((skill, i) => (
+                          <div
+                            key={i}
+                            className="border px-2  border-purple-600 text-purple-600 rounded"
+                          >
+                            <div>{skill}</div>
+                          </div>
+                        ))}
+                      </div>
                       <div className="flex ic justify-between mt-2 mb-1">
                         <div className="flex items-center gap-1">
                           <MdOutlineStar className="text-yellow-500" />

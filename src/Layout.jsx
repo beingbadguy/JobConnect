@@ -1,8 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-
 import { FirebaseContext } from "./context/FirebaseContext";
+import { useLocation } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
+import ClipLoader from "react-spinners/ClipLoader";
+
 const Layout = () => {
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  // console.log(location.pathname);
+
+  useEffect(() => {
+    // Set loading to true when path changes
+    setLoading(true);
+    // Simulate a network request or loading delay
+    const timer = setTimeout(() => {
+      setLoading(false); // Set loading to false after delay
+    }, 1000); // Adjust the delay as needed
+    return () => clearTimeout(timer); // Clear timeout on unmount or path change
+  }, [location.pathname]);
+
   const { user, userData } = useContext(FirebaseContext);
   const [path, setPath] = useState(window.location.pathname);
   const [menu, setMenu] = useState(false);
@@ -18,7 +35,7 @@ const Layout = () => {
   }, [menu]);
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="">
       <div className="p-4 flex justify-between items-center bg-[#FAF9F6]">
         <Link to={"/"}>
           <div className="flex items-center gap-1">
@@ -156,12 +173,23 @@ const Layout = () => {
           </svg>
         </div>
       </div>
-      <div>
+
+      {loading && loading ? (
+        <div className="fixed inset-0 flex items-center justify-center bg-white/50 z-50">
+          <ClipLoader />
+          {/* <PacmanLoader /> */}
+        </div>
+      ) : (
         <Outlet />
-      </div>
+      )}
+
       <div>
         <hr />
-        <p className="flex justify-center items-center p-2">
+        <p
+          className={` ${
+            loading ? "hidden" : "flex"
+          } flex justify-center items-center p-2`}
+        >
           <img
             src="https://img.icons8.com/?size=100&id=59825&format=png&color=000000"
             className="h-4"

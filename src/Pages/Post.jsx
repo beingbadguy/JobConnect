@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 
 const Post = () => {
-  const { user, userData, logout } = useContext(FirebaseContext);
+  const { user, userData, logout, fetchJobs } = useContext(FirebaseContext);
   const [loader, setLoader] = useState(false);
 
   // console.log(user?.uid);
@@ -113,7 +113,6 @@ const Post = () => {
         hireEmail: userData.email,
         createdBy: user.uid,
       });
-      alert("Job Posted Successfully");
 
       // Reset form after successful submission
       setForm({
@@ -137,6 +136,7 @@ const Post = () => {
         peopleApplied: [],
       });
       setLoader(false);
+      fetchJobs();
       navigate("/jobs");
     } catch (error) {
       console.error("Error posting job:", error);
