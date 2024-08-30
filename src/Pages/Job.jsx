@@ -233,7 +233,7 @@ const Job = () => {
 
           <div
             className={`mt-6 font-bold text-white bg-purple-600 w-[150px] flex items-center justify-center rounded p-2 cursor-pointer ${
-              userData?.role === "Recruiter" ? "hidden " : ""
+              user ? (userData?.role === "Recruiter" ? "hidden " : "") : "block"
             }`}
             onClick={() => {
               if (user) {
