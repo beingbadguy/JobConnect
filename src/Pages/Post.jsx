@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 
 const Post = () => {
-  const { user, userData } = useContext(FirebaseContext);
+  const { user, userData, logout } = useContext(FirebaseContext);
   const [loader, setLoader] = useState(false);
 
   // console.log(user?.uid);
@@ -153,8 +153,25 @@ const Post = () => {
   return (
     <div>
       {userData?.role == "Employee" ? (
-        <div className="min-h-[78vh] md:min-h-[85vh] flex justify-center items-center">
-          <p>Please Signup as an organisation to post jobs!</p>
+        <div className="min-h-[78vh] md:min-h-[85vh] flex justify-center items-center gap-2 flex-col">
+          <p className="font-bold">Please Signup as Recruiter to post jobs!</p>
+          <div
+            className="flex gap-1 font-bold mt-3 cursor-pointer"
+            onClick={() => {
+              logout();
+              navigate("/");
+            }}
+          >
+            <img
+              src="https://img.icons8.com/?size=100&id=Q1xkcFuVON39&format=png&color=000000"
+              alt=""
+              className=" left-4 cursor-pointer h-6 top-20"
+            />
+            <p className="hover:text-purple-500 transition-all duration-200">
+              {" "}
+              Logout
+            </p>
+          </div>
         </div>
       ) : (
         <div className="flex justify-between px-4 md:p-4 items-start flex-col md:flex-row ">
@@ -163,7 +180,7 @@ const Post = () => {
             <div className=" mt-4 flex flex-col   border p-2 rounded shadow-md">
               <div className="flex items-center justify-between gap-5">
                 <div className="flex gap-4">
-                  <div className="border">
+                  <div className="">
                     <img
                       src={userData?.profilePic}
                       alt=""

@@ -23,9 +23,9 @@ const Layout = () => {
         <Link to={"/"}>
           <div className="flex items-center gap-1">
             <img
-              src="https://www.logggos.club/logos/socialclub.svg"
+              src="./logo.jpg"
               alt=""
-              className="h-8 sm:h-8 md:h-8"
+              className="h-8 sm:h-8 md:h-8 rounded"
             />
             <div className="text-xl font-bold">
               Job<span className="text-purple-600">Connect</span>
@@ -107,7 +107,7 @@ const Layout = () => {
               <img
                 src="https://img.icons8.com/?size=100&id=20749&format=png&color=000000"
                 alt=""
-                className="h-8 cursor-pointer border rounded-full border-purple-500 mt-10 md:mt-0"
+                className="h-16 md:h-8 cursor-pointer border rounded-full border-purple-500 mt-10 md:mt-0"
               />
             </div>
           ) : (
@@ -140,11 +140,20 @@ const Layout = () => {
             setMenu(true);
           }}
         >
-          <img
-            src="https://img.icons8.com/?size=100&id=68555&format=png&color=000000"
-            alt=""
-            className="h-10 "
-          />
+          <svg
+            className="h-7"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 10H3M20 6H3M20 14H3M16 18H3"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </div>
       </div>
       <div>

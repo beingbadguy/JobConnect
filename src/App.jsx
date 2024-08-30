@@ -15,8 +15,9 @@ const App = () => {
     <div className="">
       {/* hero  */}
       <div className="min-h-[78vh] md:min-h-[86vh] flex justify-center items-center flex-col  ">
-        <img src=".\main.svg" alt="" className="h-32 md:h-48 mb-10" />
-        <h1 className="mx-3 text-3xl sm:text-4xl md:text-6xl font-bold md:w-[600px] text-center text-purple-500">
+        <img src=".\3.png" alt="" className="h-48 md:h-48 mb-10" />
+
+        <h1 className="mx-3 text-3xl sm:text-4xl md:text-6xl font-bold md:w-[600px] text-center text-purple-500 relative">
           Modernizing the Job Search Experience
         </h1>
         <p className="mx-4 my-5 md:w-[500px] text-center text-gray-500">
@@ -24,10 +25,10 @@ const App = () => {
           align with your skills, interests, and aspirants.
         </p>
         <div className="flex items-center justify-center  gap-4 mx-4 flex-col sm:flex-row w-full">
-          <div className="flex items-center justify-between gap-2 border-2 border-black p-1 w-[70%]  rounded sm:w-[40%]">
+          <div className="flex items-center justify-between gap-2 border border-black p-1 w-[70%]  rounded sm:w-[40%]">
             <input
               type="text "
-              className="outline-none font-bold w-full bg-transparent text-black placeholder:text-black"
+              className="outline-none p-1 w-full bg-transparent text-black placeholder:text-black"
               placeholder="Search job for..."
               ref={inputRef}
             />
@@ -46,7 +47,9 @@ const App = () => {
             Search
           </button>
         </div>
-        <p className="mt-2 text-red-200">{error}</p>
+        <p className="mt-2 text-purple-600 w-full flex items-center justify-center">
+          {error}
+        </p>
       </div>
     </div>
   );

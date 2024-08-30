@@ -39,7 +39,7 @@ const Login = () => {
       } catch (error) {
         console.log(error.message);
         setError(error.message);
-        setLoader(true);
+        setLoader(false);
       }
     }
   };
@@ -52,23 +52,28 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center flex-col min-h-[77vh] sm:min-h-[84vh]">
-      <img
-        src="https://img.icons8.com/?size=100&id=WP0ZFD6iSQ2B&format=png&color=000000"
-        alt=""
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
         className="absolute left-4 cursor-pointer h-7 top-20"
         onClick={() => {
           window.history.back();
         }}
-      />
-      <img
-        src="https://www.logggos.club/logos/socialclub.svg"
-        alt=""
-        className="h-8 sm:h-8 md:h-8 mb-2"
-      />
-      <p>Welcome Back!</p>
+      >
+        <path
+          d="M15 18L9 12L15 6"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <img src="./logo.jpg" alt="" className="h-8 sm:h-8 md:h-8 mb-2 rounded" />
+      <p>Hi, Welcome Back!</p>
       {error != "" ? <p className="text-sm text-red-500 mt-4">{error}</p> : ""}
       <form
-        className="flex items-center justify-center flex-col gap-4 w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%]  "
+        className="mt-2 flex items-center justify-center flex-col gap-4 w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%]  "
         onSubmit={handleLogin}
       >
         <label htmlFor="" className="flex flex-col w-full gap-2 ">
@@ -111,7 +116,10 @@ const Login = () => {
           </div>
         </label>
 
-        <button className="bg-purple-400 w-full p-2 rounded flex items-center justify-center" type="submit">
+        <button
+          className="bg-purple-500 w-full p-2 rounded flex items-center justify-center text-white font-bold"
+          type="submit"
+        >
           {loader ? (
             <Oval
               visible={true}
@@ -127,7 +135,7 @@ const Login = () => {
           )}
         </button>
         <p>
-          Don't have an account?``
+          Don't have an account?
           <span className="underline text-purple-600">
             <Link to={"/signup"}> Signup </Link>
           </span>

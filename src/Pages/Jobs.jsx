@@ -8,15 +8,16 @@ import { MdOutlineCurrencyRupee } from "react-icons/md";
 import { FirebaseContext } from "../context/FirebaseContext";
 import { CiSaveDown2 } from "react-icons/ci";
 import { MdOutlineStar } from "react-icons/md";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
 
 const Jobs = () => {
   const { searchValue } = useParams();
   // console.log(searchValue);
 
-  const { jobs, saveJobs, userData } = useContext(FirebaseContext);
+  const { jobs, saveJobs, userData, user } = useContext(FirebaseContext);
   const [filter, setFilter] = useState(false);
+  const navigate = useNavigate();
 
   const [newJobs, setNewJobs] = useState();
   const [search, setSearch] = useState({
@@ -232,7 +233,11 @@ const Jobs = () => {
                               alt=""
                               className="cursor-pointer h-5"
                               onClick={() => {
-                                saveJobs(job.id);
+                                if (user) {
+                                  saveJobs(job.id);
+                                } else {
+                                  navigate("/login");
+                                }
                               }}
                             />
                           )}
@@ -317,7 +322,11 @@ const Jobs = () => {
                               alt=""
                               className="cursor-pointer h-5"
                               onClick={() => {
-                                saveJobs(job.id);
+                                if (user) {
+                                  saveJobs(job.id);
+                                } else {
+                                  navigate("/login");
+                                }
                               }}
                             />
                           )}

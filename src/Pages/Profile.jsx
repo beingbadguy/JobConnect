@@ -176,18 +176,27 @@ const Profile = () => {
   return (
     <div className="min-h-[78vh] md:min-h-[85vh] mb-6">
       <div className="flex p-4 justify-between">
-        <img
-          src="https://img.icons8.com/?size=100&id=WP0ZFD6iSQ2B&format=png&color=000000"
-          alt=""
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
           className=" left-4 cursor-pointer h-7 top-20"
           onClick={() => {
             window.history.back();
           }}
-        />
+        >
+          <path
+            d="M15 18L9 12L15 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
         <img
           src="https://img.icons8.com/?size=100&id=Q1xkcFuVON39&format=png&color=000000"
           alt=""
-          className=" left-4 cursor-pointer h-7 top-20"
+          className=" left-4 cursor-pointer h-6 top-20"
           onClick={() => {
             logout();
             navigate("/");
@@ -402,12 +411,12 @@ const Profile = () => {
               <a
                 href={userData?.resume}
                 target="_blank"
-                className="text-purple-500"
+                className="text-purple-500 underline"
               >
                 View your resume
               </a>
             ) : (
-              <p className="text-purple-500">Upload your resume.</p>
+              <p className="text-red-500">Upload your resume.</p>
             )}
 
             <div className="bg-black text-white  p-1 px-2 text-sm rounded-xl w-[100px] h-7 relative cursor-pointer flex items-center justify-center">

@@ -317,7 +317,7 @@ const Profile = () => {
           </div>
           <div className="flex items-start flex-col mt-4">
             <div className="flex items-center justify-between w-full">
-              <p>Address</p>
+              <p>City</p>
               <img
                 src={
                   address
