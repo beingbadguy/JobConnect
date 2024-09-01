@@ -156,7 +156,7 @@ const Signup = () => {
             value={login.name}
             onChange={loginChange}
             required
-            className="border border-black rounded p-2"
+            className="border border-black rounded p-2 outline-purple-400"
           />
         </label>
         <label htmlFor="" className="flex flex-col w-full gap-2 ">
@@ -168,7 +168,7 @@ const Signup = () => {
             value={login.email}
             onChange={loginChange}
             required
-            className="border border-black rounded p-2"
+            className="border border-black rounded p-2 outline-purple-400"
           />
         </label>
         <label htmlFor="" className="flex flex-col w-full gap-2 relative">
@@ -180,7 +180,7 @@ const Signup = () => {
               value={login.password}
               onChange={loginChange}
               required
-              className="border border-black rounded p-2  w-full"
+              className="border border-black rounded p-2  w-full outline-purple-400"
             />
             {password ? (
               <IoMdEyeOff
@@ -204,7 +204,7 @@ const Signup = () => {
           <div>
             <select
               name="role"
-              className="w-full p-2 border border-black rounded "
+              className="w-full p-2 border border-black rounded outline-purple-400"
               value={login.role}
               onChange={loginChange}
             >

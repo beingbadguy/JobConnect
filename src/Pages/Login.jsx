@@ -84,7 +84,7 @@ const Login = () => {
             value={login.email}
             onChange={loginChange}
             required
-            className="border border-black rounded p-2"
+            className="border border-black rounded p-2 outline-purple-400"
           />
         </label>
         <label htmlFor="" className="flex flex-col w-full gap-2 relative">
@@ -96,7 +96,7 @@ const Login = () => {
               value={login.password}
               onChange={loginChange}
               required
-              className="border border-black rounded p-2  w-full"
+              className="border border-black rounded p-2  w-full outline-purple-400"
             />
             {password ? (
               <IoMdEyeOff

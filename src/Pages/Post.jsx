@@ -262,7 +262,7 @@ const Post = () => {
                     name="title"
                     value={form.title}
                     onChange={formHandle}
-                    className="p-2 outline-none border bg-gray-100 placeholder:text-black rounded my-2"
+                    className="p-2  border bg-gray-100 placeholder:text-black rounded my-2 outline-purple-400 "
                   />
                 </div>
                 <div className="flex flex-col mt-2 w-[50%]">
@@ -271,7 +271,7 @@ const Post = () => {
                     name="workPreference"
                     value={form.workPreference}
                     onChange={formHandle}
-                    className="p-2 outline-none border cursor-pointer bg-gray-100 rounded my-2"
+                    className="p-2  border cursor-pointer bg-gray-100 rounded my-2 outline-purple-400"
                   >
                     <option>Select</option>
 
@@ -287,7 +287,7 @@ const Post = () => {
                     name="type"
                     value={form.type}
                     onChange={formHandle}
-                    className="p-2 outline-none border bg-gray-100 placeholder:text-black rounded my-2 cursor-pointer"
+                    className="p-2  border bg-gray-100 placeholder:text-black rounded my-2 cursor-pointer outline-purple-400"
                   >
                     <option>Select</option>
 
@@ -305,7 +305,7 @@ const Post = () => {
                       name="salary"
                       value={form.salary}
                       onChange={formHandle}
-                      className="p-2 outline-none border bg-gray-100 placeholder:text-black rounded my-2 w-[100%]"
+                      className="p-2 outline-purple-400 border bg-gray-100 placeholder:text-black rounded my-2 w-[100%]"
                     />
                     <p className="absolute right-0 bg-black text-white px-2 p-2 rounded-r-sm">
                       Lakhs
@@ -320,7 +320,7 @@ const Post = () => {
                   name="description"
                   value={form.description}
                   onChange={formHandle}
-                  className="p-2 outline-none border bg-gray-100 placeholder:text-black rounded my-2 h-36"
+                  className="p-2 outline-purple-400 border bg-gray-100 placeholder:text-black rounded my-2 h-36"
                 />
               </div>
               <div className="flex flex-col mt-2">
@@ -329,7 +329,7 @@ const Post = () => {
                   name="responsibilities"
                   value={form.responsibilities}
                   onChange={formHandle}
-                  className="p-2 outline-none border bg-gray-100 placeholder:text-black rounded my-2 h-36"
+                  className="p-2 outline-purple-400 border bg-gray-100 placeholder:text-black rounded my-2 h-36"
                 />
               </div>
               {/* <div className="flex flex-col mt-2">
@@ -347,7 +347,7 @@ const Post = () => {
                   name="education"
                   value={form.education}
                   onChange={formHandle}
-                  className="p-2 outline-none border bg-gray-100 placeholder:text-black rounded my-2 h-36"
+                  className="p-2 outline-purple-400 border bg-gray-100 placeholder:text-black rounded my-2 h-36"
                 />
               </div>
               <div className="flex justify-between items-center gap-10">
@@ -357,7 +357,7 @@ const Post = () => {
                     name="experience"
                     value={form.experience}
                     onChange={formHandle}
-                    className="p-2 outline-none border bg-gray-100 placeholder:text-black rounded my-2"
+                    className="p-2 outline-purple-400 border bg-gray-100 placeholder:text-black rounded my-2"
                   >
                     <option>Select</option>
 
@@ -374,7 +374,7 @@ const Post = () => {
                       name="vacancy"
                       value={form.vacancy}
                       onChange={formHandle}
-                      className="p-2 outline-none border bg-gray-100 placeholder:text-black rounded my-2 w-[100%]"
+                      className="p-2 outline-purple-400 border bg-gray-100 placeholder:text-black rounded my-2 w-[100%]"
                     />
                     <p className="absolute right-0 bg-black text-white px-2 p-2 rounded-r-sm">
                       Posts
@@ -389,7 +389,7 @@ const Post = () => {
                   name="skills"
                   value={form.skills}
                   onChange={formHandle}
-                  className="p-2 outline-none border bg-gray-100 placeholder:text-black rounded my-2"
+                  className="p-2 outline-purple-400 border bg-gray-100 placeholder:text-black rounded my-2"
                 />
               </div>
               <div
