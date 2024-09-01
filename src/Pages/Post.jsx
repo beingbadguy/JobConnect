@@ -52,12 +52,13 @@ const Post = () => {
   //     setLogo(file);
   //   }
   // };
+  // console.log(userData?.profilePic);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (form.title === "") {
-      alert("Title is required");
+    if (form.title === "" && form.title.length > 20) {
+      alert("Title is required and shouldn't be more than 20 characters");
       return;
     }
     if (form.workPreference === "") {
@@ -94,15 +95,7 @@ const Post = () => {
     }
 
     try {
-      // let downloadURL = "";
-
-      // if (form.companyLogo) {
-      //   const fileRef = ref(storage, `companyLogo/${form.companyLogo.name}`);
-      //   await uploadBytes(fileRef, form.companyLogo);
-      //   downloadURL = await getDownloadURL(fileRef);
-      // }
       setLoader(true);
-
       const jobRef = collection(db, "jobs");
       await addDoc(jobRef, {
         ...form,
@@ -114,7 +107,6 @@ const Post = () => {
         createdBy: user.uid,
       });
 
-      // Reset form after successful submission
       setForm({
         title: "",
         workPreference: "",
@@ -152,8 +144,25 @@ const Post = () => {
 
   return (
     <div>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="absolute left-4 cursor-pointer h-7 top-20"
+        onClick={() => {
+          window.location.href = "/";
+        }}
+      >
+        <path
+          d="M15 18L9 12L15 6"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
       {userData?.role == "Employee" ? (
-        <div className="min-h-[78vh] md:min-h-[85vh] flex justify-center items-center gap-2 flex-col">
+        <div className="min-h-[78vh] md:min-h-[85vh] flex justify-center items-center gap-2 flex-col ">
           <p className="font-bold">Please Signup as Recruiter to post jobs!</p>
           <div
             className="flex gap-1 font-bold mt-3 cursor-pointer"
@@ -174,7 +183,7 @@ const Post = () => {
           </div>
         </div>
       ) : (
-        <div className="flex justify-between px-4 md:p-4 items-start flex-col md:flex-row ">
+        <div className="flex justify-between px-4 md:p-4 items-start flex-col md:flex-row mt-10 md:5 ">
           <div className="md:m-4  w-[100%] md:w-[50%] ">
             <h1 className="font-bold">Preview</h1>
             <div className=" mt-4 flex flex-col   border p-2 rounded shadow-md">
@@ -184,7 +193,7 @@ const Post = () => {
                     <img
                       src={userData?.profilePic}
                       alt=""
-                      className="h-20 w-20 rounded-full object-cover "
+                      className="h-20 w-20 p-2 rounded-full object-cover "
                     />
                   </div>
                   <div>
@@ -385,7 +394,9 @@ const Post = () => {
               </div>
               <div
                 className="text-center bg-black p-2 mt-4 text-white rounded cursor-pointer flex items-center justify-center"
-                onClick={handleSubmit}
+                onClick={(e) => {
+                  handleSubmit(e);
+                }}
               >
                 {loader ? (
                   <Oval

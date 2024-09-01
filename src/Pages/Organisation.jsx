@@ -147,14 +147,23 @@ const Profile = () => {
   return (
     <div className="min-h-[78vh] md:min-h-[85vh] mb-6">
       <div className="flex p-4 justify-between">
-        <img
-          src="https://img.icons8.com/?size=100&id=WP0ZFD6iSQ2B&format=png&color=000000"
-          alt=""
-          className=" left-4 cursor-pointer h-7 top-20"
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="absolute left-4 cursor-pointer h-7 top-20"
           onClick={() => {
             window.history.back();
           }}
-        />
+        >
+          <path
+            d="M15 18L9 12L15 6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
         <img
           src="https://img.icons8.com/?size=100&id=Q1xkcFuVON39&format=png&color=000000"
           alt=""
@@ -180,7 +189,7 @@ const Profile = () => {
           <img
             src={userData?.profilePic}
             alt=""
-            className="mt-4 h-20 w-20 rounded-full object-cover border border-purple-500"
+            className="mt-4 h-20 w-20 rounded-full p-1 object-cover border-2 border-purple-500"
           />
         ) : (
           <img
@@ -365,7 +374,9 @@ const Profile = () => {
           </div>
         </div>
         <div className="mt-4">
-          <p>Created Jobs</p>
+          <p className="font-bold my-3 text-purple-700 ">
+            Jobs Created by you:{" "}
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2">
             {jobsCreatedByMe &&
               jobsCreatedByMe.map((job, i) => (
@@ -422,21 +433,44 @@ const Profile = () => {
                     </div>
                   </div>
                   <div>
-                    <p>People Applied</p>
-                    <div className="flex justify-between">
-                      <p>Name</p>
-                      <p>Resume</p>
+                    <div className="flex justify-between items-center">
+                      <div className="font-bold flex items-center gap-1 text-purple-500">
+                        People Applied{" "}
+                        <img
+                          src="https://img.icons8.com/?size=100&id=86293&format=png&color=000000"
+                          alt=""
+                          className="h-4"
+                        />
+                      </div>
+
+                      <div className="font-bold flex items-center gap-1 text-purple-500">
+                        Resume
+                        <img
+                          src="https://img.icons8.com/?size=100&id=86293&format=png&color=000000"
+                          alt=""
+                          className="h-4"
+                        />
+                      </div>
                     </div>
+
+                    {/* <div className="flex justify-between">
+                      <p className="font-bold">Name</p>
+                    </div> */}
                     <div>
                       {job?.resumeReceived?.map((name, index) => (
                         <div key={index} className="flex justify-between mt-2">
-                          <p className="font-bold">{name.name}</p>
+                          <p className="">{name.name}</p>
                           <a
                             href={name.resume}
                             target="_blank"
-                            className="text-purple-500 cursor-pointer"
+                            className=" cursor-pointer  flex items-center border px-2 justify-center rounded gap-1 hover:border-black transition-all duration-500"
                           >
-                            view
+                            Open
+                            <img
+                              src="https://img.icons8.com/?size=100&id=59728&format=png&color=000000"
+                              alt=""
+                              className="h-4 "
+                            />
                           </a>
                         </div>
                       ))}

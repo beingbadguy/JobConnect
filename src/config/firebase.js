@@ -4,9 +4,9 @@ import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyArgI4LFFTBBShy7iYai_Bm90bo2aZVp88",
-  authDomain: "book-store-7197e.firebaseapp.com",
-  projectId: "book-store-7197e",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: "book-store-7197e.appspot.com",
   messagingSenderId: "971886919631",
   appId: "1:971886919631:web:ca877c8f9405899737dcba",

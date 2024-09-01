@@ -3,6 +3,23 @@ import React from "react";
 const About = () => {
   return (
     <div className=" py-16">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="absolute left-4 cursor-pointer h-7 top-20"
+        onClick={() => {
+          window.history.back();
+        }}
+      >
+        <path
+          d="M15 18L9 12L15 6"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="text-base font-semibold text-black tracking-wide uppercase">

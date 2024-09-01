@@ -44,14 +44,17 @@ const Signup = () => {
         if (login.role == "Recruiter") {
           if (userdata) {
             await setDoc(doc(db, "users", userdata.uid), {
-              organisation_name: login.name,
+              name: login.name,
+              profilePic:
+                "https://img.icons8.com/?size=100&id=7820&format=png&color=1A1A1A",
+
               email: login.email,
               userId: userdata.uid,
               JobsCreated: [],
               JobsSaved: [],
               JobsApplied: [],
               role: login.role,
-              City: "New Delhi",
+              address: "New Delhi",
               phone: "9876543210",
               resume: null,
               education: [],
@@ -71,6 +74,9 @@ const Signup = () => {
               name: login.name,
               email: login.email,
               userId: userdata.uid,
+              profilePic:
+                "https://img.icons8.com/?size=100&id=7820&format=png&color=1A1A1A",
+
               JobsCreated: [],
               JobsSaved: [],
               JobsApplied: [],
@@ -124,9 +130,9 @@ const Signup = () => {
         <path
           d="M15 18L9 12L15 6"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
       <img src="./logo.jpg" alt="" className="h-8 sm:h-8 md:h-8 mb-2 rounded" />

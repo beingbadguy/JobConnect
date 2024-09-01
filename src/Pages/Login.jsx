@@ -64,9 +64,9 @@ const Login = () => {
         <path
           d="M15 18L9 12L15 6"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
       <img src="./logo.jpg" alt="" className="h-8 sm:h-8 md:h-8 mb-2 rounded" />
