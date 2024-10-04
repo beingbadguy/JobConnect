@@ -167,7 +167,7 @@ const Profile = () => {
         <img
           src="https://img.icons8.com/?size=100&id=Q1xkcFuVON39&format=png&color=000000"
           alt=""
-          className=" left-4 cursor-pointer h-7 top-20"
+          className="absolute right-4 cursor-pointer h-7 top-20"
           onClick={() => {
             logout();
             navigate("/");
@@ -175,7 +175,7 @@ const Profile = () => {
         />
       </div>
 
-      <div className="px-4">
+      <div className="px-4 mt-4">
         <div className="flex items-center">
           <p>Account</p>
           <img
